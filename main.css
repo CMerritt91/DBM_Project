@@ -1,12 +1,22 @@
-.h1 {
+.outer {
+    border: 3px solid #ADD8E6;
 	width:auto;
-	height: 200px;
-	background-color: #ADD8E6;
-	margin-bottom: 10px;
+	height: 150px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.inner {
+    background-color: #ADD8E6;
+    width:auto;
+    height: 150px;
+    text-align: center;
+    font-size: large;
 }
 
 body {
     margin: 0;
+    background-color: seashell;
 }
 
 .sticky{
