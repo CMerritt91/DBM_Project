@@ -1,0 +1,17 @@
+.h1 {
+	width:auto;
+	height: 200px;
+	background-color: #ADD8E6;
+	margin-bottom: 10px;
+}
+
+body {
+    margin: 0;
+}
+
+.sticky{
+    position: fixed;
+    top: 0;
+    width:100%;
+    z-index: 1;
+}
