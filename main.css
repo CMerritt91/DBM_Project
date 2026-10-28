@@ -1,27 +1,28 @@
-.outer {
-    border-bottom: 3px solid li;
-	width:auto;
-	height: 100px;
+body {
+  background-image:linear-gradient(rgba(255, 255, 255, 0.7)), url('img/beige-comb-painting-texture-background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
+
 
 .inner {
     background-color: #ADD8E6;
-    width:auto;
-    height: 100px;
+    width: auto;
+    margin: 30px;
+    height: 400px;
     display: flex;
     justify-content: flex-start;
 }
-
-/* .logo {
-   height: 100px;
-   width: 100px;
-} */
 
 .logo {
   color: white;
   font-size: 22px;
   font-weight: bold;
   text-decoration: none;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
 }
 
 /* set the first div in the parent container with a fixed dimension, 
@@ -40,45 +41,6 @@ then use flex 1 to take up the rest of the space */
     border-bottom: 1px solid navy;
 }
 
-/* @media (min-width: 480px) {
-    .outer {
-        height: 150px;
-    }
-
-    .inner {
-        height: 150px;
-    }
-
-    .title {
-        font-size: 45;
-        height: 150px;
-    }
-
-    .logo {
-        height: 150px;
-        width: 150px;
-    }
-}
-
-@media (min-width: 768px) {
-    .outer {
-        height: 200px;
-    }
-
-    .inner {
-        height: 200px;
-    }
-
-    .title {
-        font-size: 60;
-        height: 200px;
-    }
-
-    .logo {
-        height: 200px;
-        width: 200px;
-    }
-} */
 
 body {
     margin: 0;
@@ -89,9 +51,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #a7a4a4;
+  background-color: #22242A;
   padding: 0 24px;
-  height: 45px;
+  height: 55px;
   position: sticky;   /* stays at top while scrolling */
   top: 0;
 }
@@ -102,10 +64,11 @@ body {
   list-style: none;
   margin: 0;
   padding: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .nav-links a {
-  color: #ddd;
+  color: #EFF0F4;
   text-decoration: none;
   padding: 8px 4px;
   transition: color 0.2s;
