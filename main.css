@@ -7,11 +7,11 @@ body {
 }
 
 
-.inner {
-    background-color: #ADD8E6;
+.h1 {
+    background-color: #FDC16180;
+    /* add 2 digits to the end of hexacode to adjust opacity from 00(fully transparent to ff(fully opaque), 80 is 50% */
     width: auto;
     margin: 30px;
-    height: 400px;
     display: flex;
     justify-content: flex-start;
 }
@@ -114,3 +114,55 @@ body {
     padding: 14px 24px;
   }
 }
+
+  .wrap {
+    display: flex;
+    width: 480px;
+  }
+
+  /* Y-axis numbers */
+  .y-axis {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    height: 300px;
+    padding-right: 8px;
+    font-size: 12px;
+    text-align: right;
+  }
+
+  .plot { flex: 1; }
+
+  /* Bars area with horizontal gridlines */
+  .bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+    height: 300px;
+    padding: 0 16px;
+    border-left: 2px solid #333;
+    border-bottom: 2px solid #333;
+    background-image: linear-gradient(#ddd 1px, transparent 1px);
+    background-size: 100% 25%;   /* a gridline every 25% of the height */
+  }
+
+  .bar {
+    flex: 1;
+    background-color: steelblue;
+    transition: background-color 0.2s;
+  }
+
+  .bar:hover { background-color: darkorange; }
+
+  /* X-axis labels */
+  .x-axis {
+    display: flex;
+    gap: 20px;
+    padding: 6px 16px 0;
+    font-size: 13px;
+  }
+
+  .x-axis span {
+    flex: 1;
+    text-align: center;
+  }
