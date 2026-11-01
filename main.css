@@ -1,19 +1,31 @@
 body {
-  background-image:linear-gradient(rgba(255, 255, 255, 0.7)), url('img/beige-comb-painting-texture-background.jpg');
+  background-image: linear-gradient(rgba(255, 255, 255, 0.7)), url('img/beige-comb-painting-texture-background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
 }
 
-
 .h1 {
-    background-color: #FDC16180;
-    /* add 2 digits to the end of hexacode to adjust opacity from 00(fully transparent to ff(fully opaque), 80 is 50% */
-    width: auto;
-    margin: 30px;
-    display: flex;
-    justify-content: flex-start;
+  background-color: lightblue;
+  width: auto;
+  margin: 30px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.h2 {
+  background-color: lightblue;
+  /* add 2 digits to the end of hexacode to adjust opacity from 00(fully transparent to ff(fully opaque), 80 is 50% */
+  width: auto;
+  margin: 30px;
+}
+
+.h3 {
+  background-color: #616264;
+  width: auto;
+  margin: 30px;
+
 }
 
 .logo {
@@ -29,22 +41,16 @@ body {
 then use flex 1 to take up the rest of the space */
 
 .title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    font-size: 28;
-    flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  font-size: 28;
+  flex: 1;
 }
 
 .name {
-    border-bottom: 1px solid navy;
-}
-
-
-body {
-    margin: 0;
-    background-color: seashell;
+  border-bottom: 1px solid navy;
 }
 
 .navbar {
@@ -54,7 +60,8 @@ body {
   background-color: #22242A;
   padding: 0 24px;
   height: 55px;
-  position: sticky;   /* stays at top while scrolling */
+  position: sticky;
+  /* stays at top while scrolling */
   top: 0;
 }
 
@@ -90,12 +97,14 @@ body {
 
 /* Mobile layout */
 @media (max-width: 768px) {
+
   .menu-toggle {
     display: block;
   }
 
   .nav-links {
-    display: none;              /* hidden until toggled */
+    display: none;
+    /* hidden until toggled */
     flex-direction: column;
     gap: 0;
     position: absolute;
@@ -113,56 +122,14 @@ body {
     display: block;
     padding: 14px 24px;
   }
+
+  .text_custom {
+    font-size: 26px;
+  }
 }
 
-  .wrap {
-    display: flex;
-    width: 480px;
-  }
+.card {
+  background-color: linen;
+  color: #333;
 
-  /* Y-axis numbers */
-  .y-axis {
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: space-between;
-    height: 300px;
-    padding-right: 8px;
-    font-size: 12px;
-    text-align: right;
-  }
-
-  .plot { flex: 1; }
-
-  /* Bars area with horizontal gridlines */
-  .bars {
-    display: flex;
-    align-items: flex-end;
-    gap: 20px;
-    height: 300px;
-    padding: 0 16px;
-    border-left: 2px solid #333;
-    border-bottom: 2px solid #333;
-    background-image: linear-gradient(#ddd 1px, transparent 1px);
-    background-size: 100% 25%;   /* a gridline every 25% of the height */
-  }
-
-  .bar {
-    flex: 1;
-    background-color: steelblue;
-    transition: background-color 0.2s;
-  }
-
-  .bar:hover { background-color: darkorange; }
-
-  /* X-axis labels */
-  .x-axis {
-    display: flex;
-    gap: 20px;
-    padding: 6px 16px 0;
-    font-size: 13px;
-  }
-
-  .x-axis span {
-    flex: 1;
-    text-align: center;
-  }
+}
