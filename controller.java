@@ -13,7 +13,7 @@ public class controller {
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM your_table")) {
+             ResultSet rs = stmt.executeQuery("SELECT * FROM RegisteredUser")) {
 
             System.out.println("Connected!");
 
