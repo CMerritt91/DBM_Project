@@ -10,39 +10,42 @@
         crossorigin="anonymous"></script>
     <title>Lone Star Pet Adoption</title>
     <!-- Link to the external CSS file -->
-    <link rel="stylesheet" href="static/main.css">
+    <link rel="stylesheet" href="/static/main.css">
 </head>
 
 <body>
-    <div class="navbar">
-        <img src="static/img/LSPA_logo@1x.png" height="55px" width="55px">
+    <!--navbar-->
+    <div class="navbar sticky-top">
+        <img src="/static/img/LSPA_logo@1x.png" height="55px" width="55px">
         <a href="#" class="logo">Lone Star Pet Adoption</a>
         <button class="menu-toggle" aria-label="Toggle menu">☰</button>
 
         <ul class="nav-links">
-            <li><a href="/index.html">Home</a></li>
-            <li><a href="/gallery.html">Gallery</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="/templates/index.html">Home</a></li>
+            <li><a href="/templates/gallery.html">Gallery</a></li>
+            <li><a href="/templates/login.html">Login</a></li>
         </ul>
     </div>
+    <!--container for intro-->
     <div class="h1 container-md-fluid rounded">
         <div class="col-6 d-flex justify-content-center align-items-center">
             <p class="text-center">Complete your family today</p>
         </div>
-        <img src="static/img/group_dogs.png" class="img-fluid col-6 rounded">
+        <img src="/static/img/group_dogs.png" class="img-fluid col-6 rounded">
     </div>
-    <div class="h3 container-md-fluid rounded d-flex justify-content-center">
+    <!--label for gallery-->
+    <div class="h3 container-md-fluid rounded d-flex justify-content-center py-2">
         <p class="text-center my-0">Gallery</p>
     </div>
-    <div class="h2 container-fluid rounded ">
+    <!--container for cards-->
+    <div class="h2 container-fluid rounded py-2">
         <div class="row row-cols-1 row-cols-lg-2 g-4">
 
             <div class="col">
                 <div class="card h-100">
                     <div class="row g-0 h-100">
                         <div class="col-4 ">
-                            <img src="static/img/happy-dog-rottweilers" class="w-100 h-100 object-fit-cover rounded-start"
+                            <img src="/static/img/happy-dog-rottweilers" class="w-100 h-100 object-fit-cover rounded-start"
                                 alt="Card 1">
                         </div>
                         <div class="col-8">
@@ -52,7 +55,7 @@
                                 </div>
                                 <p class="card-text">I like long walks, chewing shoes. Long distance relationship with
                                     the mailman.</p>
-                                <a href="#" class="btn btn-primary btn-sm">Learn more</a>
+                                <a href="#" class="btn btn-secondary btn-sm">Learn more</a>
                             </div>
                         </div>
                     </div>
@@ -62,7 +65,7 @@
                 <div class="card h-100">
                     <div class="row g-0 h-100">
                         <div class="col-4">
-                            <img src="static/img/happy-dog-rottweilers" class="w-100 h-100 object-fit-cover rounded-start"
+                            <img src="/static/img/happy-dog-rottweilers" class="w-100 h-100 object-fit-cover rounded-start"
                                 alt="Card 1">
                         </div>
                         <div class="col-8">
@@ -72,7 +75,7 @@
                                 </div>
                                 <p class="card-text text_custom">I like long walks, chewing shoes. Long distance relationship with
                                     the mailman.</p>
-                                <a href="#" class="btn btn-primary btn-sm">Learn more</a>
+                                <a href="#" class="btn btn-secondary btn-sm">Learn more</a>
                             </div>
                         </div>
                     </div>
@@ -80,8 +83,20 @@
             </div>
         </div>
     </div>
-    <div>create buttons for login or register</div>
-    <!-- if you would like to create a custom gallery of pets filtered by your preferences go ahead and create an account -->
+    <!--container for login/registration buttons-->
+    <div class="h3 container-fluid rounded d-flex flex-column">
+        <div>
+        <p class="fs-5 text-center">Want a custom gallery of pets filtered by your preferences, create an account!</p>
+        </div>
+        <div class="container-fluid rounded d-flex justify-content-around py-2">
+            <a class="btn btn-secondary" href="/templates/login.html}">Login</a>
+            <a class="btn btn-secondary" href="/templates/registration}">Register</a>
+        </div>
+    </div>
+    <!--container for kennel information-->
+    <div class="h2 container fluid rounded py-2">
+        <h4 class="text-center">Our Locations</h4>
+    </div>
 </body>
 <footer></footer>
 

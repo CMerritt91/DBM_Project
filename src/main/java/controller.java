@@ -3,6 +3,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class controller {
 
     public static void main(String[] args) {
@@ -15,9 +17,10 @@ public class controller {
         //     System.out.println("Driver NOT on classpath");
         // }
 
+        Dotenv dotenv = Dotenv.load();
         String url = "jdbc:mysql://localhost:3306/AnimalAdoptionDB";
         String user = "root";
-        String password = "root";
+        String password = dotenv.get("DB_PASSWORD");
 
         try (Connection conn = DriverManager.getConnection(url, user, password);
              Statement stmt = conn.createStatement();
