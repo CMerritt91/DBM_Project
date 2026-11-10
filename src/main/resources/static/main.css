@@ -131,3 +131,15 @@ then use flex 1 to take up the rest of the space */
   color: #333;
 
 }
+
+.ghost {
+  height: 100px;
+}
+
+.formBody {
+  background-color: lightblue;
+}
+
+.hidden {
+  display: none;
+}
