@@ -1,6 +1,4 @@
-package controllers;
-
-import models.User;
+package dbmproject.controllers;
 
 import java.sql.DriverManager;
 import java.sql.Connection;
@@ -13,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import dbmproject.models.User;
 import io.github.cdimascio.dotenv.Dotenv;
 
 @Controller

@@ -1,4 +1,4 @@
-package config;
+package dbmproject.config;
 
 
 // import org.springframework.context.annotation.Bean;
