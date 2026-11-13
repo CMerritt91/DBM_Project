@@ -1,0 +1,82 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="~{partials :: head(${user.username})}"></head>
+
+<body>
+    <nav th:replace="partials :: nav"></nav>
+    <!--navbar
+    <div class="navbar sticky-top">
+        <img src="/static/img/LSPA_logo@1x.png" height="55px" width="55px">
+        <a href="#" class="logo">Lone Star Pet Adoption</a>
+        <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+
+        <ul class="nav-links">
+            <li><a href="/templates/index.html">Home</a></li>
+            <li><a href="/templates/gallery.html">Gallery</a></li>
+            <li><a href="/templates/login.html">Login</a></li>
+        </ul>
+    </div>
+    -->
+    <!--container for intro-->
+    <div class="h1 container-md-fluid rounded">
+        <div class="col-6 d-flex justify-content-center align-items-center">
+            <p class="text-center" th:text="'Welcome Back' + ' ' + ${user.first_name} + ' ' + ${user.last_name}"></p>
+        </div>
+        <img src="/static/img/group_dogs.png" class="img-fluid col-6 rounded">
+    </div>
+    <!--label for gallery-->
+    <div class="h3 container-md-fluid rounded d-flex justify-content-center py-2">
+        <p class="text-center my-0">Gallery</p>
+    </div>
+    <!--container for cards-->
+    <div class="h2 container-fluid rounded py-2">
+        <div class="row row-cols-1 row-cols-lg-2 g-4">
+
+            <div class="col">
+                <div class="card h-100">
+                    <div class="row g-0 h-100">
+                        <div class="col-4 ">
+                            <img src="/static/img/happy-dog-rottweilers" class="w-100 h-100 object-fit-cover rounded-start"
+                                alt="Card 1">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <p class="border-bottom border-3" style="border-color: coral;">Bark Twain</p>
+                                </div>
+                                <p class="card-text">I like long walks, chewing shoes. Long distance relationship with
+                                    the mailman.</p>
+                                <a href="#" class="btn btn-secondary btn-sm">Learn more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="row g-0 h-100">
+                        <div class="col-4">
+                            <img src="/static/img/happy-dog-rottweilers" class="w-100 h-100 object-fit-cover rounded-start"
+                                alt="Card 1">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <p class="border-bottom border-3 text_custom" style="border-color: coral;">Brad Pit</p>
+                                </div>
+                                <p class="card-text text_custom">I like long walks, chewing shoes. Long distance relationship with
+                                    the mailman.</p>
+                                <a href="#" class="btn btn-secondary btn-sm">Learn more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+<footer></footer>
+<block th:replace="~{partials :: scripts}"></block>
+
+</html>

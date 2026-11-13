@@ -1,3 +1,6 @@
 {
-  "liveServer.settings.root": "/src/main/resources"
-}
+    "java.configuration.updateBuildConfiguration": "interactive"
+} // {
+//   "liveServer.settings.root": "/src/main/resources",
+//   "java.configuration.updateBuildConfiguration": "interactive"
+// }

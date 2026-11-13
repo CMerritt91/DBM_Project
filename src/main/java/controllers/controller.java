@@ -1,3 +1,4 @@
+package controllers;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,13 +10,6 @@ public class controller {
 
     public static void main(String[] args) {
 
-        // System.out.println(System.getProperty("java.class.path"));
-        // try {
-        //     Class.forName("com.mysql.cj.jdbc.Driver");
-        //     System.out.println("Driver FOUND");
-        // } catch (ClassNotFoundException e) {
-        //     System.out.println("Driver NOT on classpath");
-        // }
 
         Dotenv dotenv = Dotenv.load();
         String url = "jdbc:mysql://localhost:3306/AnimalAdoptionDB";
