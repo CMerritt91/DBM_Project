@@ -4,17 +4,7 @@
 
 <body>
     <!--navbar-->
-    <div class="navbar sticky-top">
-        <img th:src="@{/img/LSPA_logo@1x.png}" height="55px" width="55px">
-        <a href="#" class="logo">Lone Star Pet Adoption</a>
-        <button class="menu-toggle" aria-label="Toggle menu">☰</button>
-
-        <ul class="nav-links">
-            <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/gallery}">Gallery</a></li>
-            <li><a th:href="@{/login}">Login</a></li>
-        </ul>
-    </div>
+    <nav th:replace="~{partials :: nav}"></nav>
     <div class="ghost"></div>
         <!--container for login-->
     <div class="container rounded">

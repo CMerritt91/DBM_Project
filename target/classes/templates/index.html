@@ -3,18 +3,7 @@
 <head th:replace="~{partials :: head('Home')}"></head>
 
 <body>
-    <!--navbar-->
-    <div class="navbar sticky-top">
-        <img th:src="@{/img/LSPA_logo@1x.png}" height="55px" width="55px">
-        <a href="#" class="logo">Lone Star Pet Adoption</a>
-        <button class="menu-toggle" aria-label="Toggle menu">☰</button>
-
-        <ul class="nav-links">
-            <li><a th:href="@{/}">Home</a></li>
-            <li><a th:href="@{/gallery}">Gallery</a></li>
-            <li><a th:href="@{/login}">Login</a></li>
-        </ul>
-    </div>
+    <nav th:replace="~{partials :: nav}"></nav>
     <!--container for intro-->
     <div class="h1 container-md-fluid rounded">
         <div class="col-6 d-flex justify-content-center align-items-center">
@@ -83,7 +72,7 @@
         </div>
     </div>
     <!--container for kennel information-->
-    <div class="h2 container fluid rounded py-2">
+    <div class="h2 container-fluid rounded py-2">
         <h4 class="text-center">Our Locations</h4>
     </div>
     <block th:replace="~{partials :: scripts}"></block>
