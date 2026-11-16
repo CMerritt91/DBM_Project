@@ -15,19 +15,18 @@ import org.springframework.stereotype.Component;
 
 /**
  * Fills AnimalAdoptionDB with starter data:
- * 1 admin user, 2 species, 5 breeds, 3 kennels and 10 dogs.
+ * 1 employee (a registered user with an Employee row), 2 species, 5 breeds,
+ * 3 kennels and 10 pets.
  *
  * Runs once at startup when app.seed=true is set in application.properties.
- * It does nothing if the admin account already exists, so it is safe to leave on,
+ * It does nothing if the employee account already exists, so it is safe to leave on,
  * but it is meant for empty tables (the IDs below are fixed).
- *
- 
  */
 @Component
 public class DataSeeder implements CommandLineRunner {
 
-    private static final String ADMIN_EMAIL = "chrismerritt1991@yahoo.com";
-    private static final String ADMIN_PASSWORD = "Lian@2020";
+    private static final String EMP_EMAIL = "chrismerritt1991@yahoo.com";
+    private static final String EMP_PASSWORD = "Lian@2020";
 
     private final DataSource dataSource;
     private final PasswordEncoder passwordEncoder;
@@ -49,13 +48,13 @@ public class DataSeeder implements CommandLineRunner {
         try (Connection conn = dataSource.getConnection()) {
             conn.setAutoCommit(false);
             try {
-                if (adminExists(conn)) {
-                    System.out.println("[DataSeeder] Admin already exists, skipping seed.");
+                if (employeeExists(conn)) {
+                    System.out.println("[DataSeeder] Seed employee already exists, skipping seed.");
                     return;
                 }
                 seed(conn);
                 conn.commit();
-                System.out.println("[DataSeeder] Seed data inserted: 1 admin, 2 species, 5 breeds, 3 kennels, 10 dogs.");
+                System.out.println("[DataSeeder] Seed data inserted: 1 employee, 2 species, 5 breeds, 3 kennels, 10 pets.");
             } catch (Exception e) {
                 conn.rollback();
                 throw e;
@@ -63,10 +62,10 @@ public class DataSeeder implements CommandLineRunner {
         }
     }
 
-    private boolean adminExists(Connection conn) throws SQLException {
+    private boolean employeeExists(Connection conn) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement(
                 "SELECT 1 FROM RegisteredUser WHERE Email = ?")) {
-            ps.setString(1, ADMIN_EMAIL);
+            ps.setString(1, EMP_EMAIL);
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
             }
@@ -90,24 +89,20 @@ public class DataSeeder implements CommandLineRunner {
 
         // ---- Kennels -------------------------------------------------------
         String kennelSql = "INSERT INTO Kennel(KennelID, KennelNumber, Capacity, Location) VALUES (?, ?, ?, ?)";
-        update(conn, kennelSql, 1, 1, 50, "North Wing");
-        update(conn, kennelSql, 2, 2, 30, "South Wing");
-        update(conn, kennelSql, 3, 3, 35, "East Wing");
+        update(conn, kennelSql, 1, 1, 50, "1495 Veterans Memorial Pkwy, Huntsville, TX 77340");
+        update(conn, kennelSql, 2, 2, 30, "32632 Wright Rd, Magnolia, TX 77355");
+        update(conn, kennelSql, 3, 3, 35, "728 Elm St, Waller, TX 77484");
 
-        // ---- Admin user -> employee -> admin -------------------------------
+        // ---- Employee (a registered user with an Employee row) ---------------
         update(conn,
             "INSERT INTO RegisteredUser(UserID, Email, FirstName, LastName, Password, Address, PhoneNumber) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?)",
-            1, ADMIN_EMAIL, "Chris", "Merritt", passwordEncoder.encode(ADMIN_PASSWORD),
+            1, EMP_EMAIL, "Chris", "Merritt", passwordEncoder.encode(EMP_PASSWORD),
             "100 Shelter Road, Austin, TX 78701", "5125550100");
 
         update(conn,
             "INSERT INTO Employee(EmployeeID, JobTitle, eUserID) VALUES (?, ?, ?)",
-            1, "Shelter Administrator", 1);
-
-        update(conn,
-            "INSERT INTO Admin(AdminID, aEmployeeID) VALUES (?, ?)",
-            1, 1);
+            1, "Shelter Manager", 1);
 
         // ---- 10 dogs -------------------------------------------------------
         String petSql =
@@ -131,7 +126,7 @@ public class DataSeeder implements CommandLineRunner {
     private void pet(Connection conn, String sql, int id, String name, String dob, String description,
                      String intake, String status, String sex, int kennelId, int breedId) throws SQLException {
         update(conn, sql, id, name, LocalDate.parse(dob), description, LocalDate.parse(intake),
-               "dog-placeholder.jpg", status, sex, kennelId, breedId, 1);
+               "sus_dog.png", status, sex, kennelId, breedId, 1);
     }
 
     /** Runs one INSERT with the given values, in order. */

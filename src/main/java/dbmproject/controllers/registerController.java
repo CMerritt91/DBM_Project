@@ -1,15 +1,16 @@
 package dbmproject.controllers;
 
-import java.sql.DriverManager;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import dbmproject.models.User;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -21,6 +22,12 @@ public class registerController {
     String url = "jdbc:mysql://localhost:3306/AnimalAdoptionDB";
     String sqlUser = "root";
     String password = dotenv.get("DB_PASSWORD");
+
+    private final PasswordEncoder passwordEncoder;
+
+    public registerController(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @GetMapping("/registration")
     public String showForm(Model model) {
@@ -38,7 +45,7 @@ public class registerController {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getFirstName());
             ps.setString(3, user.getLastName());
-            ps.setString(4, user.getPassword());
+            ps.setString(4, passwordEncoder.encode(user.getPassword()));
             ps.setString(5, user.getAddress());
             ps.setString(6, user.getPhoneNumber());
             ps.executeUpdate();

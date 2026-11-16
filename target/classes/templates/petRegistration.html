@@ -36,7 +36,7 @@
                     </div>
                     <div class="col">
                         <label class="form-label pt-1" for="sex">Sex</label>
-                        <input class="form-control" type="text" id="sex" placeholder="M or F" name="sex" th:field="*{sex}">
+                        <input class="form-control" type="text" id="sex" placeholder="Male or Female" name="sex" th:field="*{sex}">
                     </div>
                 </div>
                 
@@ -49,14 +49,14 @@
                 <div class="row">
                     <div class="col">
                         <label class="form-label pt-1" for="kennel">Kennel</label>
-                        <select class="form-select mb-2" th:field="*{kennelId}">
+                        <select class="form-select mb-2" name="kennel" id="kennel" th:field="*{kennelId}">
                             <option th:each="k : ${kennels}" th:value="${k.kennelId}"
                                 th:text="${'Kennel ' + k.kennelNumber + ' - ' + k.location}"></option>
                         </select>
                     </div>
                     <div class="col">
                         <label class="form-label pt-1" for="breed">Breed</label>
-                        <select class="form-select mb-2" th:field="*{breedId}">
+                        <select class="form-select mb-2" name="breed" id="breed" th:field="*{breedId}">
                             <option th:each="b : ${breeds}" th:value="${b.breedId}" th:text="${b.breedName}"></option>
                         </select>
                     </div>
@@ -69,6 +69,7 @@
             </form>
         </div>
     </div>
+    <div class="ghost"></div>
     <block th:replace="~{partials :: scripts}"></block>
 
 </body>
