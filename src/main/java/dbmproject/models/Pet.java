@@ -64,7 +64,7 @@ public class Pet {
     public Integer getKennelId() { return kennelId; }
     public void setKennelId(Integer kennelId) { this.kennelId = kennelId; }
 
-    public Integer getBreedId() { return breedId; }
+    public int getBreedId() { return breedId; }
     public void setBreedId(Integer breedId) { this.breedId = breedId; }
 
     public Integer getManagedByEmployeeId() { return managedByEmployeeId; }

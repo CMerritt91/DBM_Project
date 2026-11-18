@@ -1,5 +1,6 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "python.terminal.useEnvFile": true
 } // {
 //   "liveServer.settings.root": "/src/main/resources",
 //   "java.configuration.updateBuildConfiguration": "interactive"

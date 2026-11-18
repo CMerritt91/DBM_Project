@@ -1,72 +1,87 @@
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
-        <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
-        <title>Lone Star Pet Adoption</title>
-        <!-- Link to the external CSS file -->
-        <link rel="stylesheet" href="main.css">
-    </head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="~{partials :: head('Gallery')}"></head>
+    
     <body>
-        <div class="navbar">
-            <img src="img/LSPA_logo@1x.png" height="55px" width="55px">
-            <a href="#" class="logo">Lone Star Pet Adoption</a>
-            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+      <nav th:replace="~{partials :: nav}"></nav>
 
-            <ul class="nav-links">
-                <li><a href="/index.html">Home</a></li>
-                <li><a href="/gallery.html">Gallery</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-         <div class="container py-4">
+      <div class="container my-4">
+        <h2 class="text-center mb-4">Gallery</h2>
 
-    <div class="row row-cols-1 row-cols-lg-2 g-4">
+        <form class="row g-2 justify-content-center mb-4" th:action="@{/gallery}" method="get">
+          <div class="col-12 col-sm-6 col-md-3">
+            <select class="form-select" name="species">
+              <option value="">All species</option>
+              <option th:each="e : ${speciesNames}" th:value="${e.key}" th:text="${e.value}"
+                th:selected="${e.key == species}"></option>
+            </select>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <select class="form-select" name="breed">
+              <option value="">All breeds</option>
+              <option th:each="e : ${breedNames}" th:value="${e.key}" th:text="${e.value}"
+                th:selected="${e.key == breed}"></option>
+            </select>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <select class="form-select" name="sex">
+              <option value="">Any sex</option>
+              <option value="Male" th:selected="${sex == 'Male'}">Male</option>
+              <option value="Female" th:selected="${sex == 'Female'}">Female</option>
+            </select>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3 d-flex gap-2">
+            <button type="submit" class="btn btn-secondary flex-fill">Filter</button>
+            <a th:href="@{/gallery}" class="btn btn-outline-secondary flex-fill">Clear</a>
+          </div>
+        </form>
 
-      <div class="col">
-        <div class="card h-100">
-          <div class="row g-0 h-100">
-            <div class="col-4">
-              <img src="https://picsum.photos/300/300?1"
-                   class="w-100 h-100 object-fit-cover rounded-start"
-                   alt="Card 1">
-            </div>
-            <div class="col-8">
-              <div class="card-body">
-                <h5 class="card-title">Card 1</h5>
-                <p class="card-text">Some text about this card.</p>
-                <a href="#" class="btn btn-primary btn-sm">Learn more</a>
+        <p class="text-center text-muted" th:text="${total} + ' pets found'">0 pets found</p>
+
+        <div class="h2 row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 pb-3">
+          <div class="col" th:each="p : ${pets}">
+            <div class="card h-100 shadow-sm">
+              <div class="row g-0 h-100">
+                <div class="col-4">
+                  <img th:src="@{'/img/' + ${p.photoUrl}}" th:alt="${p.name}"
+                  class="w-100 h-100 object-fit-cover rounded-start" style="min-height: 180px;">
+                </div>
+                <div class="col-8">
+                  <div class="card-body d-flex flex-column h-100">
+                    <h4 class="card-title border-bottom border-3" style="border-color: coral;" th:text="${p.name}">Name</h4>
+                      <p class="card-text small text-muted mb-1" th:text="${breedNames[p.breedId]}">Breed</p>
+                      <p class="card-text small text-muted mb-1" th:text="${p.getAgeInYears} + ' years old'">2 years old</p>
+                      <p class="card-text small text-muted mb-1" th:text="${p.sex}">Unknown</p>
+                      <p class="card-text" th:text="${p.description}">Description</p>
+                      <a th:href="@{/pet/{id}(id=${p.petId})}"
+                        class="btn btn-secondary btn-sm mt-auto align-self-start">Learn more</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="col">
-        <div class="card h-100">
-          <div class="row g-0 h-100">
-            <div class="col-4">
-              <img src="https://picsum.photos/300/300?2"
-                   class="w-100 h-100 object-fit-cover rounded-start"
-                   alt="Card 2">
-            </div>
-            <div class="col-8">
-              <div class="card-body">
-                <h5 class="card-title">Card 2</h5>
-                <p class="card-text">Some text about this card.</p>
-                <a href="#" class="btn btn-primary btn-sm">Learn more</a>
-              </div>
-            </div>
+          <div class="col-12" th:if="${#lists.isEmpty(pets)}">
+            <p class="text-center text-muted">No pets available right now.</p>
           </div>
         </div>
+
+        <!--page buttons-->
+        <nav class="d-flex justify-content-between align-items-center my-4">
+          <a class="btn btn-secondary"
+            th:classappend="${currentPage <= 1} ? 'disabled'"
+            th:href="@{/gallery(page=${currentPage - 1}, species=${species}, breed=${breed}, sex=${sex})}">Previous</a>
+
+          <span th:text="'Page ' + ${currentPage} + ' of ' + ${totalPages}">Page 1 of 1</span>
+
+          <a class="btn btn-secondary"
+            th:classappend="${currentPage >= totalPages} ? 'disabled'"
+            th:href="@{/gallery(page=${currentPage + 1}, species=${species}, breed=${breed}, sex=${sex})}">Next</a>
+
+        </nav>
       </div>
+      
+      <block th:replace="~{partials :: scripts}"></block>
 
-      <!-- Copy a .col block to add more cards -->
-
-    </div>
-  </div>
     </body>
-    <footer></footer>
 </html>
