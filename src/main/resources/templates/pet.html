@@ -1,0 +1,92 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="~{partials :: head(${pet.name})}"></head>
+
+<body>
+    <nav th:replace="~{partials :: nav}"></nav>
+
+    <div class="container my-4">
+
+        <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+        <div class="row align-items-start g-4 mb-4">
+
+            <!--left column: small picture with the buttons under it-->
+            <div class="col-12 col-md-3">
+                <img th:src="@{'/img/' + ${pet.photoUrl}}" th:alt="${pet.name}"
+                class="img-fluid rounded shadow-sm w-100 mb-3"
+                style="max-width: 220px; aspect-ratio: 1 / 1; object-fit: cover;">
+
+                <div class="d-grid gap-2" style="max-width: 220px;">
+                    <a class="btn btn-secondary" th:if="${pet.adoptionStatus == 'Available'}"
+                        th:href="@{/adoption(petId=${pet.petId})}">Adopt <span th:text="${pet.name}"></span></a>
+                    <span class="btn btn-outline-secondary disabled" th:unless="${pet.adoptionStatus == 'Available'}">Not available for adoption</span>
+                    <a class="btn btn-outline-secondary" th:href="@{/gallery}">Back to Gallery</a>
+                </div>
+            </div>
+
+            <!--right column: text starting at the top-->
+            <div class="col-12 col-md-9">
+                <h2 class="border-bottom border-3 pb-1 mt-0" style="border-color: coral;" th:text="${pet.name}">Name</h2>
+
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">ID Number</dt>
+                    <dd class="col-sm-9" th:text="${pet.petId}">1</dd>
+
+                    <dt class="col-sm-3">Breed</dt>
+                    <dd class="col-sm-9" th:text="${breedName}">Breed</dd>
+
+                    <dt class="col-sm-3">Sex</dt>
+                    <dd class="col-sm-9" th:text="${pet.sex}">Male</dd>
+
+                    <dt class="col-sm-3">Date of Birth</dt>
+                    <dd class="col-sm-9" th:text="${pet.dob}">2021-03-14</dd>
+
+                    <dt class="col-sm-3">Age</dt>
+                    <dd class="col-sm-9" th:text="${pet.getAgeInYears}">2 years old</dd>
+
+                    <dt class="col-sm-3">Intake Date</dt>
+                    <dd class="col-sm-9" th:text="${pet.intakeDate}">2026-09-02</dd>
+
+                    <dt class="col-sm-3">Status</dt>
+                    <dd class="col-sm-9" th:text="${pet.adoptionStatus}">Available</dd>
+
+                    <dt class="col-sm-3">Kennel</dt>
+                    <dd class="col-sm-9"
+                        th:text="${kennelNumber != null} ? ('Kennel ' + ${kennelNumber} + ' - ' + ${kennelLocation}) : 'Not assigned'">Kennel</dd>
+
+                    <dt class="col-sm-3">Description</dt>
+                    <dd class="col-sm-9" th:text="${pet.description}">Description</dd>
+                </dl>
+            </div>
+        </div>
+
+        <!--medical history-->
+        <h4 class="text-center mb-3">Medical History</h4>
+        <div class="table-responsive">
+            <table class="table table-striped align-middle" th:unless="${#lists.isEmpty(history)}">
+                <thead>
+                    <tr>
+                        <th>Visit Date</th>
+                        <th>Visit Type</th>
+                        <th>Vaccination</th>
+                        <th>Spayed / Neutered</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="h : ${history}">
+                        <td th:text="${h.visitDate}">2026-09-05</td>
+                        <td th:text="${h.visitType}">Checkup</td>
+                        <td th:text="${h.vaccinationType}">Rabies</td>
+                        <td th:text="${h.spayedNeutered}">Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="text-center text-muted" th:if="${#lists.isEmpty(history)}">No medical records on file for this pet yet.</p>
+    </div>
+
+    <th:block th:replace="~{partials :: scripts}"></th:block>
+</body>
+
+</html>
