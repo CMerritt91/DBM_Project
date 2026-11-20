@@ -101,8 +101,8 @@ public class DataSeeder implements CommandLineRunner {
             "100 Shelter Road, Austin, TX 78701", "5125550100");
 
         update(conn,
-            "INSERT INTO Employee(EmployeeID, JobTitle, eUserID) VALUES (?, ?, ?)",
-            1, "Shelter Manager", 1);
+        "INSERT INTO Employee(EmployeeID, JobTitle, eUserID, Role) VALUES (?, ?, ?, ?)",
+        1, "Shelter Manager", 1, "Manager");
 
         // ---- 10 dogs -------------------------------------------------------
         String petSql =
@@ -120,6 +120,13 @@ public class DataSeeder implements CommandLineRunner {
         pet(conn, petSql, 8,  "Rocky",      "2018-06-12", "Strong, steady and affectionate. Already found his family.",                        "2026-07-30", "Adopted",   "Male",   3, 3);
         pet(conn, petSql, 9,  "Sadie",      "2021-12-25", "Confident and trainable. Learns new tricks quickly.",                               "2026-10-08", "Available", "Female", 3, 2);
         pet(conn, petSql, 10, "Cooper",     "2025-04-03", "Energetic puppy-at-heart who loves everyone he meets.",                             "2026-10-15", "Available", "Male",   3, 5);
+    
+
+        // Insert information for medical history
+        update(conn, "INSERT INTO MedicalHistory(MedicalRecordID, mPetID, VisitType, VisitDate, SpayedNeutered) " +
+             "VALUES (?, ?, ?, ?, ?)", 1, 1, "Checkup", LocalDate.parse("2026-09-05"), "Yes");
+        update(conn, "INSERT INTO Vaccinations(vmPetID, VaccinationID, VaccinationType) VALUES (?, ?, ?)", 1, 1, "Rabies");
+        update(conn, "INSERT INTO Vaccinations(vmPetID, VaccinationID, VaccinationType) VALUES (?, ?, ?)", 1, 2, "Distemper");
     }
 
     /** Inserts one pet. All photos use the same placeholder file name (put the image in static/img). */

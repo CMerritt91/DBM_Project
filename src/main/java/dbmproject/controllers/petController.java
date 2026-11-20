@@ -62,17 +62,15 @@ public class petController {
                 }
             }
             model.addAttribute("history", loadHistory(conn, id));
+            model.addAttribute("vaccinations", loadVaccinations(conn, id));
         }
         return "pet";
     }
 
-    /** One row per visit (and per vaccination recorded at that visit). */
     private List<Map<String, Object>> loadHistory(Connection conn, int petId) throws SQLException {
         List<Map<String, Object>> rows = new ArrayList<>();
-        String sql = "SELECT m.VisitDate, m.VisitType, v.VaccinationType, v.SpayedNeutered " +
-                     "FROM MedicalHistory m " +
-                     "LEFT JOIN Vaccinations v ON v.vMedicalRecordID = m.MedicalRecordID " +
-                     "WHERE m.mPetID = ? ORDER BY m.VisitDate DESC";
+        String sql = "SELECT VisitDate, VisitType, SpayedNeutered FROM MedicalHistory " +
+                 "WHERE mPetID = ? ORDER BY VisitDate DESC";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, petId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -80,12 +78,25 @@ public class petController {
                     Map<String, Object> row = new LinkedHashMap<>();
                     row.put("visitDate", rs.getObject("VisitDate", LocalDate.class));
                     row.put("visitType", rs.getString("VisitType"));
-                    row.put("vaccinationType", rs.getString("VaccinationType"));
                     row.put("spayedNeutered", rs.getString("SpayedNeutered"));
                     rows.add(row);
                 }
             }
         }
         return rows;
+    }
+
+    private List<String> loadVaccinations(Connection conn, int petId) throws SQLException {
+        List<String> list = new ArrayList<>();
+        String sql = "SELECT VaccinationType FROM Vaccinations WHERE vmPetID = ? ORDER BY VaccinationID";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, petId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(rs.getString("VaccinationType"));
+                }
+            }
+        }
+        return list;
     }
 }

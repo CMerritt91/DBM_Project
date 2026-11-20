@@ -69,7 +69,6 @@
                     <tr>
                         <th>Visit Date</th>
                         <th>Visit Type</th>
-                        <th>Vaccination</th>
                         <th>Spayed / Neutered</th>
                     </tr>
                 </thead>
@@ -77,13 +76,17 @@
                     <tr th:each="h : ${history}">
                         <td th:text="${h.visitDate}">2026-09-05</td>
                         <td th:text="${h.visitType}">Checkup</td>
-                        <td th:text="${h.vaccinationType}">Rabies</td>
                         <td th:text="${h.spayedNeutered}">Yes</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <p class="text-center text-muted" th:if="${#lists.isEmpty(history)}">No medical records on file for this pet yet.</p>
+        <h5 class="mt-4">Vaccinations</h5>
+        <ul class="list-inline" th:unless="${#lists.isEmpty(vaccinations)}">
+            <li class="list-inline-item badge text-bg-secondary fs-6" th:each="v : ${vaccinations}" th:text="${v}">Rabies</li>
+        </ul>
+        <p class="text-muted" th:if="${#lists.isEmpty(vaccinations)}">No vaccinations on file.</p>
     </div>
 
     <th:block th:replace="~{partials :: scripts}"></th:block>

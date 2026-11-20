@@ -1,46 +1,208 @@
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
-        <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
-        <title>Lone Star Pet Adoption</title>
-        <!-- Link to the external CSS file -->
-        <link rel="stylesheet" href="main.css">
-    </head>
-    <body>
-        <div class="navbar">
-            <img src="img/LSPA_logo@1x.png" height="55px" width="55px">
-            <a href="#" class="logo">Lone Star Pet Adoption</a>
-            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
-            <ul class="nav-links">
-                <li><a href="/index.html">Home</a></li>
-                <li><a href="/gallery.html">Gallery</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+<head th:replace="~{partials :: head('Employee')}"></head>
+
+<body>
+    <nav th:replace="~{partials :: nav}"></nav>
+
+    <div class="container my-4">
+        <h2 class="text-center mb-4">Employee Dashboard</h2>
+
+        <div class="alert alert-success" th:if="${message}" th:text="${message}"></div>
+        <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+        <div class="d-flex justify-content-center mb-4">
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#reportModal">
+                Create Report
+            </button>
         </div>
-        
-        <div class="h1">
-            <div class="wrap">
-                <div class="y-axis">
-                    <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
-                </div>
-                <div class="plot">
-                    <div class="bars">
-                        <div class="bar" style="height: 40%" title="Jan: 40"></div>
-                        <div class="bar" style="height: 75%" title="Feb: 75"></div>
-                        <div class="bar" style="height: 55%" title="Mar: 55"></div>
-                        <div class="bar" style="height: 90%" title="Apr: 90"></div>
-                    </div>
-                    <div class="x-axis">
-                        <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span>
-                    </div>
+
+        <!--pets per kennel graph-->
+        <div class="card shadow-sm mb-5">
+            <div class="card-body">
+                <h5 class="card-title text-center">Pets at Each Kennel</h5>
+                <div style="position: relative; height: 320px;">
+                    <canvas id="kennelChart"></canvas>
                 </div>
             </div>
         </div>
-    </body>
-   
-    <footer></footer>
+
+        <!--pending adoptions-->
+        <h4 class="text-center mb-3">Pending Adoptions</h4>
+        <div class="table-responsive" th:unless="${#lists.isEmpty(pending)}">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Submitted</th>
+                        <th>Applicant</th>
+                        <th>Pet</th>
+                        <th class="text-end">Decision</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="a : ${pending}">
+                        <td th:text="${a.dateSubmitted}">2026-11-18</td>
+                        <td>
+                            <span th:text="${a.applicant}">Name</span><br>
+                            <small class="text-muted" th:text="${a.email}">email</small>
+                        </td>
+                        <td><a th:href="@{/pet/{id}(id=${a.petId})}" th:text="${a.petName}">Pet</a></td>
+                        <td class="text-end">
+                            <form th:action="@{/employee/review}" method="post" class="d-inline">
+                                <input type="hidden" name="applicationId" th:value="${a.applicationId}">
+                                <button type="submit" name="decision" value="approve" class="btn btn-success btn-sm">Approve</button>
+                                <button type="submit" name="decision" value="deny" class="btn btn-danger btn-sm">Deny</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="text-center text-muted" th:if="${#lists.isEmpty(pending)}">No pending adoption applications.</p>
+
+        <!--reports-->
+        <h4 class="text-center mt-5 mb-3">Reports</h4>
+        <div class="table-responsive" th:unless="${#lists.isEmpty(reports)}">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Generated By</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="r : ${reports}">
+                        <td th:text="${r.reportId}">1</td>
+                        <td th:text="${r.reportType}">Kennel Occupancy</td>
+                        <td th:text="${r.dateGenerated}">2026-11-20</td>
+                        <td th:text="${r.generatedBy}">Chris Merritt</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-secondary btn-sm"
+                                    data-bs-toggle="modal" data-bs-target="#viewReportModal"
+                                    th:attr="data-title=|${r.reportType} - ${r.dateGenerated}|, data-content=${r.url}">
+                                View
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="text-center text-muted" th:if="${#lists.isEmpty(reports)}">No reports have been created yet.</p>
+    </div>
+
+    <!--report modal-->
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form th:action="@{/employee/report}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reportModalLabel">Create Report</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <label class="form-label" for="reportType">Report Type</label>
+                        <select class="form-select mb-2" id="reportType" name="reportType" required>
+                            <option th:each="t : ${reportTypes}" th:value="${t}" th:text="${t}"></option>
+                            <option value="Other">Other...</option>
+                        </select>
+
+                        <div id="otherTypeBox" class="mb-2 d-none">
+                            <label class="form-label" for="otherType">Custom report type</label>
+                            <input class="form-control" type="text" id="otherType" name="otherType"
+                               maxlength="250" placeholder="Describe the report">
+                        </div>
+
+                        <label class="form-label" for="dateGenerated">Date Generated</label>
+                        <input class="form-control mb-2" type="date" id="dateGenerated" name="dateGenerated"
+                           th:value="${today}" th:max="${today}" required>
+
+                        <label class="form-label" for="employeeId">Generated By (Employee ID)</label>
+                        <input class="form-control" type="text" id="employeeId" th:value="${employeeId}" readonly>
+
+                        <label class="form-label mt-2" for="url">Report URL</label>
+                        <textarea class="form-control" rows="3" maxlength="250" type="text" id="url" name="url"
+                            placeholder="Notes" required></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-secondary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--Viewer Modal-->
+    <div class="modal fade" id="viewReportModal" tabindex="-1" aria-labelledby="viewReportTitle">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewReportTitle">Report</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="viewReportBody" style="white-space: pre-wrap;"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:replace="~{partials :: scripts}"></th:block>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+    <script th:inline="javascript">
+        const labels = /*[[${kennelLabels}]]*/ [];
+        const counts = /*[[${kennelCounts}]]*/ [];
+
+        new Chart(document.getElementById('kennelChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Pets',
+                    data: counts,
+                    backgroundColor: 'coral'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, ticks: { stepSize: 1, precision: 0 } } }
+            }
+        });
+
+        // stops the "aria-hidden on a focused element" console warning
+        document.querySelectorAll('.modal').forEach(function (m) {
+            m.addEventListener('hide.bs.modal', function () {
+                if (document.activeElement) document.activeElement.blur();
+            });
+        });
+
+        const typeSelect = document.getElementById('reportType');
+        const otherBox = document.getElementById('otherTypeBox');
+        const otherInput = document.getElementById('otherType');
+
+        typeSelect.addEventListener('change', function () {
+            const isOther = typeSelect.value === 'Other';
+            otherBox.classList.toggle('d-none', !isOther);
+            otherInput.required = isOther;
+            if (!isOther) otherInput.value = '';
+        });
+
+        document.getElementById('viewReportModal').addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;                       // the View button that was clicked
+            document.getElementById('viewReportTitle').textContent = button.getAttribute('data-title');
+            document.getElementById('viewReportBody').textContent = button.getAttribute('data-content') || 'No details.';
+        });
+
+    </script>
+</body>
+
 </html>

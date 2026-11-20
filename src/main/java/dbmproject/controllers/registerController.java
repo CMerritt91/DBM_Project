@@ -38,10 +38,10 @@ public class registerController {
     @PostMapping("/registration")
     public String submit(@ModelAttribute User user, Model model) {
         String sql = "INSERT INTO RegisteredUser(Email, FirstName, LastName, Password, Address, PhoneNumber) " +
-                     "VALUES (?, ?, ?, ?, ?, ?)";
+                 "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(url, sqlUser, password);
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+            PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user.getEmail());
             ps.setString(2, user.getFirstName());
             ps.setString(3, user.getLastName());
@@ -49,11 +49,11 @@ public class registerController {
             ps.setString(5, user.getAddress());
             ps.setString(6, user.getPhoneNumber());
             ps.executeUpdate();
-            model.addAttribute("user", new User());
-            model.addAttribute("message", "Account Created");
         } catch (SQLException e) {
             model.addAttribute("message", "Error: " + e.getMessage());
+            return "registration"; // stay on the form if the insert failed
         }
-        return "registration";
+
+        return "redirect:/login?registered";
     }
 }
